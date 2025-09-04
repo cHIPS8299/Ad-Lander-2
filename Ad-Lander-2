@@ -11,7 +11,6 @@
         Part 1 image: 4/5
         Part 3 image: 4/5
         Part 5 cards: 2/3
-        Part 6 images: 9/14
     - Product Showcase (Part 3) has a CSS hover: image nudges left, text nudges right
     - Accessibility:
         * Alt text inputs for all content images
@@ -162,78 +161,136 @@
     #ad-lander-{{ section.id }} .p5-next { right: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
 
     /* =========================
-       PART 6: Product Showcase
+       PRODUCT SHOWCASE
        ========================= */
-    #ad-lander-{{ section.id }} .p6 { padding-block: var(--space-y, 72px); }
-    #ad-lander-{{ section.id }} .showcase {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 40px;
-    }
-    @media (max-width: 700px) {
-      #ad-lander-{{ section.id }} .showcase { grid-template-columns: 1fr; }
-    }
-
-    #ad-lander-{{ section.id }} .product-card {
+    #ad-lander-{{ section.id }} #product-showcase {
+      margin-top: 180px;
+      margin-bottom: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+      padding: 50px 20px;
       position: relative;
-      border: var(--wire-border, 1px solid #e0e0e0);
-      border-radius: var(--radius, 16px);
-      overflow: hidden;
-      background: #fff;
+      transition: transform 0.4s ease;
     }
-
-    #ad-lander-{{ section.id }} .product-card:focus-within {
-      outline: 2px solid #000; outline-offset: 2px;
+    #ad-lander-{{ section.id }} #product-showcase .product-card {
+      margin: 0 10px;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+      text-align: center;
+      position: relative;
     }
-
-    #ad-lander-{{ section.id }} .product-card .media {
-      aspect-ratio: 4 / 5;
-      overflow: hidden;
+    #ad-lander-{{ section.id }} #product-showcase .left-product { margin-right: 80px; }
+    #ad-lander-{{ section.id }} #product-showcase .right-product { margin-left: 80px; }
+    #ad-lander-{{ section.id }} #product-showcase .product-card:hover { transform: scale(1.05); }
+    #ad-lander-{{ section.id }} #product-showcase .product-image {
+      width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
-    #ad-lander-{{ section.id }} .product-card .media img {
-      width: 100%; height: 100%;
-      object-fit: cover;
+    #ad-lander-{{ section.id }} #product-showcase .left-product,
+    #ad-lander-{{ section.id }} #product-showcase .right-product {
+      transform: translateX(0);
+      transition: transform 0.4s ease;
     }
-
-    #ad-lander-{{ section.id }} .product-card .details {
-      padding: 16px;
-      display: grid;
-      gap: 12px;
-      background: #fff;
-      transition: transform .3s ease;
+    #ad-lander-{{ section.id }} #product-showcase .product-info {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
+      width: 250px;
+      font-size: 1rem;
     }
-    #ad-lander-{{ section.id }} .product-card .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 10px 18px; border-radius: 999px;
-      border: var(--wire-border, 1px solid #e0e0e0);
-      background: white; color: #222; text-decoration: none; font-size: 14px;
-      transition: transform .2s ease, box-shadow .2s ease;
+    #ad-lander-{{ section.id }} #product-showcase .left-product .product-info {
+      left: 100%;
+      text-align: left;
+      transform: translateX(50px) translateY(100%);
     }
-    #ad-lander-{{ section.id }} .product-card .btn:hover { transform: translateY(-1px); box-shadow: 0 2px 10px rgba(0,0,0,.06); }
-    #ad-lander-{{ section.id }} .product-card .btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-
-    #ad-lander-{{ section.id }} .sr-only {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    #ad-lander-{{ section.id }} #product-showcase .right-product .product-info {
+      right: 100%;
+      text-align: right;
+      transform: translateX(-50px) translateY(-100%);
     }
-
-    @media (max-width: 700px) {
-      #ad-lander-{{ section.id }} .product-card .details { display: none; }
-      #ad-lander-{{ section.id }} .product-card.open .details { display: grid; }
-      #ad-lander-{{ section.id }} .product-card .toggle {
-        position: absolute; inset: 0;
-        background: transparent; border: 0; cursor: pointer;
+    #ad-lander-{{ section.id }} #product-showcase.left-hover .left-product .product-info {
+      transform: translateX(40px) translateY(-50%);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #ad-lander-{{ section.id }} #product-showcase.left-hover .right-product { transform: translateX(300px); }
+    #ad-lander-{{ section.id }} #product-showcase.right-hover .right-product .product-info {
+      transform: translateX(-40px) translateY(-50%);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #ad-lander-{{ section.id }} #product-showcase.right-hover .left-product { transform: translateX(-300px); }
+    #ad-lander-{{ section.id }} #product-showcase .product-cta {
+      display: inline-block;
+      margin: 60px auto 0;
+      padding: 10px 20px;
+      background-color: transparent;
+      color: #ef5023;
+      border: 2px solid #ef5023;
+      border-radius: 25px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    }
+    #ad-lander-{{ section.id }} #product-showcase .product-cta:hover {
+      background-color: #ef5023;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    #ad-lander-{{ section.id }} #product-showcase .product-cta.nouro-cta {
+      color: #4d5450;
+      border-color: #4d5450;
+    }
+    #ad-lander-{{ section.id }} #product-showcase .product-cta.nouro-cta:hover {
+      background-color: #4d5450;
+      color: #fff;
+    }
+    @media (max-width: 768px) {
+      #ad-lander-{{ section.id }} #product-showcase {
+        margin-top: 60px;
+        margin-bottom: 40px;
+        padding: 20px 10px;
       }
-    }
-
-    @media (hover:hover) and (pointer:fine) {
-      #ad-lander-{{ section.id }} .product-card.left:hover .media img,
-      #ad-lander-{{ section.id }} .product-card.left:focus-within .media img {
-        transform: translateX(-20px);
+      #ad-lander-{{ section.id }} #product-showcase .left-product { margin-right: 20px; }
+      #ad-lander-{{ section.id }} #product-showcase .right-product { margin-left: 20px; }
+      #ad-lander-{{ section.id }} #product-showcase .product-info {
+        position: static;
+        left: auto;
+        right: auto;
+        top: auto;
+        transform: none;
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.4s ease;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
       }
-      #ad-lander-{{ section.id }} .product-card.right:hover .media img,
-      #ad-lander-{{ section.id }} .product-card.right:focus-within .media img {
-        transform: translateX(20px);
+      #ad-lander-{{ section.id }} #product-showcase .product-card:hover .product-info {
+        max-height: 500px;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #ad-lander-{{ section.id }} #product-showcase.left-hover .right-product,
+      #ad-lander-{{ section.id }} #product-showcase.right-hover .left-product {
+        transform: none;
+      }
+      #ad-lander-{{ section.id }} #product-showcase .product-image {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        margin: 0 auto;
       }
     }
 
@@ -248,7 +305,6 @@
     #ad-lander-{{ section.id }} .p4 .sub { color: {{ section.settings.p4_subhead_color }}; }
     #ad-lander-{{ section.id }} .p5 .h1 { color: {{ section.settings.p5_header_color }}; }
     #ad-lander-{{ section.id }} .p5 .sub { color: {{ section.settings.p5_subhead_color }}; }
-    #ad-lander-{{ section.id }} .p6 .h1 { color: {{ section.settings.p6_header_color }}; }
 
     /* Simple responsive stacking (we'll tune mobile later) */
     @media (max-width: 900px) {
@@ -445,95 +501,64 @@
   </div>
   {% endif %}
 
-    <!-- =========================
-         PART 6: Product Cards
-         ========================= -->
-    {% if section.settings.show_p6 %}
-      <div class="part p6">
-        <div class="container">
-          <div class="showcase" role="list" aria-label="Product cards">
-            {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
-            {%- if product_blocks.size > 0 -%}
-              {%- for block in product_blocks -%}
-                {%- liquid
-                  assign chosen_product = block.settings.product
-                  assign manual_img = block.settings.image
-                  assign final_img = manual_img
-                  if final_img == blank and chosen_product and chosen_product.featured_image
-                    assign final_img = chosen_product.featured_image
-                  endif
-
-                  assign alt_text = block.settings.alt
-                  if alt_text == blank and chosen_product
-                    assign alt_text = chosen_product.title
-                  endif
-                  if alt_text == blank
-                    assign alt_text = 'Product image'
-                  endif
-
-                  assign cta_label = block.settings.cta_label
-                  assign cta_url = block.settings.cta_url
-                  if cta_url == blank and chosen_product
-                    assign cta_url = chosen_product.url
-                  endif
-                -%}
-                <article class="product-card{% if forloop.index0 | modulo: 2 == 0 %} left{% else %} right{% endif %}" role="listitem" {{ block.shopify_attributes }}>
-                  <div class="media">
-                    {%- if final_img != blank -%}
-                      {{ final_img | image_url: width: 1200 | image_tag:
-                        loading: 'lazy',
-                        alt: alt_text
-                      }}
-                    {%- else -%}
-                      <div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div>
-                    {%- endif -%}
-                  </div>
-
-                  <div id="details-{{ block.id }}" class="details">
-                    {%- if chosen_product -%}
-                      <div class="h1">{{ chosen_product.title }}</div>
-                    {%- endif -%}
-                    {%- if block.settings.subhead != blank -%}
-                      <div class="sub rte">{{ block.settings.subhead }}</div>
-                    {%- endif -%}
-                    {%- if cta_label != blank -%}
-                      <a class="btn"
-                         href="{{ cta_url }}"
-                         {% if block.settings.cta_newtab %}target="_blank" rel="noopener noreferrer"{% endif %}
-                         aria-label="{{ cta_label | strip }}">
-                        {{ cta_label }}
-                      </a>
-                    {%- endif -%}
-                  </div>
-                  <button class="toggle" aria-expanded="false" aria-controls="details-{{ block.id }}">
-                    <span class="sr-only">Toggle {{ chosen_product.title | default: 'product' }} details</span>
-                  </button>
-                </article>
-              {%- endfor -%}
-            {%- else -%}
-              {%- comment -%} Placeholder cards when no blocks exist {%- endcomment -%}
-              {% for i in (1..2) %}
-                <article class="product-card{% if forloop.index0 | modulo: 2 == 0 %} left{% else %} right{% endif %}" role="listitem">
-                  <div class="media"><div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div></div>
-                  <div id="placeholder-details-{{ forloop.index }}" class="details">
-                    <div class="h1">Product title</div>
-                    <div class="sub">Subhead</div>
-                    <a class="btn" href="#" aria-label="CTA">CTA</a>
-                  </div>
-                  <button class="toggle" aria-expanded="false" aria-controls="placeholder-details-{{ forloop.index }}"><span class="sr-only">Toggle details</span></button>
-                </article>
-              {% endfor %}
-            {%- endif -%}
-          </div>
-        </div>
+  <!-- PRODUCT SHOWCASE -->
+  <section id="product-showcase">
+    <!-- Left Product -->
+    <div class="product-card left-product">
+      <img src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/250725_Motus_Bottle-Render_Front_Small_14390092-7722-410c-9c20-2a904e0768d2.png?v=1753460898" alt="motus" class="product-image" />
+      <div class="product-info">
+        <img src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/motus_icon_a8d004f2-813d-436e-bcc8-95c9a1f275e7.png?v=1739471137" alt="Motus Logo Mark" style="width:40px; display:block; margin-bottom:10px;" />
+        <h1 style="text-align:left;">motus</h1>
+        <p style="text-align:left;">
+          A powerful, scientifically proven formula to burn fat - not muscle,
+          and make healthy progress on your <b>weight loss</b> journey naturally.
+        </p>
       </div>
-{% endif %}
+      {% if section.settings.left_product_button_link != blank %}
+        <a
+          href="{{ section.settings.left_product_button_link }}"
+          class="product-cta"
+        >
+          {{ section.settings.left_product_button_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Right Product -->
+    <div class="product-card right-product">
+      <img 
+        src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/250725_Nouro_Bottle-Render_Front_Small_463425dc-fccb-4f36-923e-80580f8adb1b.png?v=1753460941" alt="nouro" class="product-image" />
+      <div class="product-info">
+        <img 
+          src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/nouro_icon_dd50c433-2aca-4f4a-8d42-9673687daf8f.png?v=1739471112" 
+          alt="Nouro Logo Mark" 
+          style="width:40px; display:block; margin-bottom:10px;"
+        />
+        <h1 style="text-align:left;">nouro</h1>
+        <p style="text-align:left;">
+          Nourish your body's most important organ: your brain. Our scientifically proven formula supports cognitive performance/protection and long term <b>brain health.</b>
+        </p>
+      </div>
+      {% if section.settings.right_product_button_link != blank %}
+        <a
+          href="{{ section.settings.right_product_button_link }}"
+          class="product-cta nouro-cta"
+        >
+          {{ section.settings.right_product_button_label }}
+        </a>
+      {% endif %}
+    </div>
+  </section>
+
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
 <script>
   (function(){
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+    }
     const root = document.getElementById('ad-lander-{{ section.id }}');
     if(!root) return;
 
@@ -587,42 +612,26 @@
       window.addEventListener('resize', toggleArrows);
     }
 
-    // PART 6: Product showcase interactions
-    const showcaseCards = root.querySelectorAll('.p6 .product-card');
-    showcaseCards.forEach((card, idx) => {
-      const img = card.querySelector('.media img');
-      const details = card.querySelector('.details');
-      const toggle = card.querySelector('.toggle');
-      const dir = idx % 2 === 0 ? -1 : 1;
-
-      if (window.gsap) {
-        if (window.ScrollTrigger) {
-          gsap.from(card, {
-            opacity: 0,
-            y: 40,
-            duration: 0.6,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: card, start: 'top 80%' }
-          });
-        }
-        if (img && details) {
-          const tl = gsap.timeline({ paused: true });
-          tl.to(img, { x: 20 * dir, duration: 0.3 }, 0)
-            .to(details, { x: -20 * dir, duration: 0.3 }, 0);
-          card.addEventListener('mouseenter', () => tl.play());
-          card.addEventListener('mouseleave', () => tl.reverse());
-          card.addEventListener('focusin', () => tl.play());
-          card.addEventListener('focusout', () => tl.reverse());
-        }
-      }
-
-      if (toggle) {
-        toggle.addEventListener('click', () => {
-          const open = card.classList.toggle('open');
-          toggle.setAttribute('aria-expanded', open);
-        });
-      }
-    });
+    // Product showcase hover classes
+    const showcase = root.querySelector('#product-showcase');
+    const leftProduct = showcase ? showcase.querySelector('.left-product') : null;
+    const rightProduct = showcase ? showcase.querySelector('.right-product') : null;
+    if (showcase && leftProduct && rightProduct) {
+      leftProduct.addEventListener('mouseenter', () => {
+        showcase.classList.add('left-hover');
+        showcase.classList.remove('right-hover');
+      });
+      leftProduct.addEventListener('mouseleave', () => {
+        showcase.classList.remove('left-hover');
+      });
+      rightProduct.addEventListener('mouseenter', () => {
+        showcase.classList.add('right-hover');
+        showcase.classList.remove('left-hover');
+      });
+      rightProduct.addEventListener('mouseleave', () => {
+        showcase.classList.remove('right-hover');
+      });
+    }
 
   }());
 </script>
@@ -675,7 +684,6 @@
     { "type": "checkbox", "id": "show_p3", "label": "Show Part 3 (Showcase)", "default": true },
     { "type": "checkbox", "id": "show_p4", "label": "Show Part 4 (Intro+CTA)", "default": true },
     { "type": "checkbox", "id": "show_p5", "label": "Show Part 5 (Ingredients)", "default": true },
-    { "type": "checkbox", "id": "show_p6", "label": "Show Part 6 (Products)", "default": true },
 
     { "type": "header", "content": "Part 1 — Intro" },
     { "type": "richtext", "id": "p1_header", "label": "Header" },
@@ -722,8 +730,10 @@
     { "type": "richtext", "id": "p5_header", "label": "Header" },
     { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
     { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
-    { "type": "header", "content": "Part 6 — Products" },
-    { "type": "color", "id": "p6_header_color", "label": "Header color", "default": "#5a5a5a" }
+    { "type": "text", "id": "left_product_button_label", "label": "Left product button text", "default": "Learn about weight loss" },
+    { "type": "url", "id": "left_product_button_link", "label": "Left product button link" },
+    { "type": "text", "id": "right_product_button_label", "label": "Right product button text", "default": "Learn about brain health" },
+    { "type": "url", "id": "right_product_button_link", "label": "Right product button link" }
   ],
   "blocks": [
     {
@@ -734,30 +744,14 @@
         { "type": "text", "id": "alt", "label": "Image alt text" },
         { "type": "richtext", "id": "subhead", "label": "Subhead" }
       ]
-    },
-    {
-      "type": "product_card",
-      "name": "Product Card",
-      "settings": [
-        { "type": "product", "id": "product", "label": "Product (optional)" },
-        { "type": "image_picker", "id": "image", "label": "Image override (9:14)" },
-        { "type": "text", "id": "alt", "label": "Image alt text" },
-        { "type": "richtext", "id": "subhead", "label": "Subhead" },
-        { "type": "text", "id": "cta_label", "label": "CTA label" },
-        { "type": "url", "id": "cta_url", "label": "CTA link (overrides product URL if set)" },
-        { "type": "checkbox", "id": "cta_newtab", "label": "Open CTA in new tab", "default": false }
-      ]
     }
-    ],
-    "presets": [
-      {
+  ],
+  "presets": [
+    {
       "name": "Ad Lander",
       "blocks": [
         { "type": "ingredient_card" },
-        { "type": "ingredient_card" },
-        { "type": "product_card" },
-        { "type": "product_card" },
-        { "type": "product_card" }
+        { "type": "ingredient_card" }
       ]
     }
   ]
