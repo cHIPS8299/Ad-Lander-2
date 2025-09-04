@@ -170,15 +170,29 @@
     #ad-lander-{{ section.id }} .p5-prev { left: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
     #ad-lander-{{ section.id }} .p5-next { right: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
 
-    /* Part 6 (Product Cards grid, CTA under each) */
+    /* Part 6 (Product Cards grid, image + text/CTA) */
     #ad-lander-{{ section.id }} .p6-grid {
       display: grid; gap: 28px; grid-template-columns: repeat(2, 1fr);
     }
     #ad-lander-{{ section.id }} .product-card {
-      border: var(--wire-border); border-radius: var(--radius); padding: 14px;
-      display: grid; gap: 12px; background: #fff;
+      display: grid; gap: 12px;
     }
-    #ad-lander-{{ section.id }} .product-card .img-frame { aspect-ratio: 9 / 14; }
+    #ad-lander-{{ section.id }} .product-card .p6-media {
+      position: relative; overflow: hidden;
+    }
+    #ad-lander-{{ section.id }} .product-card .p6-media .img-frame {
+      aspect-ratio: 9 / 14; transition: transform .4s ease; position: relative; z-index: 1;
+    }
+    #ad-lander-{{ section.id }} .product-card .p6-media .hover-text {
+      position: absolute; left: 0; top: 50%; transform: translate(-100%, -50%);
+      transition: transform .4s ease; z-index: 0; white-space: nowrap;
+    }
+    #ad-lander-{{ section.id }} .p6-grid:hover .product-card .p6-media .img-frame {
+      transform: translateX(-20%);
+    }
+    #ad-lander-{{ section.id }} .p6-grid:hover .product-card .p6-media .hover-text {
+      transform: translate(0, -50%);
+    }
     #ad-lander-{{ section.id }} .product-card .sub { min-height: 1.5em; }
 
     /* Section-specific text colors */
@@ -417,15 +431,20 @@
               endif
             -%}
             <article class="product-card" role="listitem" {{ block.shopify_attributes }}>
-              <div class="img-frame">
-                {% if final_img != blank %}
-                  {{ final_img | image_url: width: 1200 | image_tag:
-                    loading: 'lazy',
-                    alt: block.settings.alt | default: chosen_product.title | default: 'Product image'
-                  }}
-                {% else %}
-                  <div class="placeholder">9:14 image</div>
+              <div class="p6-media">
+                {% if block.settings.subhead != blank %}
+                  <div class="hover-text rte" aria-hidden="true">{{ block.settings.subhead }}</div>
                 {% endif %}
+                <div class="img-frame">
+                  {% if final_img != blank %}
+                    {{ final_img | image_url: width: 1200 | image_tag:
+                      loading: 'lazy',
+                      alt: block.settings.alt | default: chosen_product.title | default: 'Product image'
+                    }}
+                  {% else %}
+                    <div class="placeholder">9:14 image</div>
+                  {% endif %}
+                </div>
               </div>
               {% if block.settings.subhead != blank %}
                 <div class="sub rte">{{ block.settings.subhead }}</div>
@@ -444,7 +463,10 @@
           <!-- Two placeholder product cards -->
           {% for i in (1..2) %}
             <article class="product-card" role="listitem">
-              <div class="img-frame"><div class="placeholder">9:14 image</div></div>
+              <div class="p6-media">
+                <div class="hover-text" aria-hidden="true">Subhead</div>
+                <div class="img-frame"><div class="placeholder">9:14 image</div></div>
+              </div>
               <div class="sub">Subhead</div>
               <a class="btn" href="#" aria-label="CTA">CTA</a>
             </article>
