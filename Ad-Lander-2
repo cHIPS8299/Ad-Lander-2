@@ -139,7 +139,12 @@
       opacity: {{ section.settings.p5_overlay_opacity | default: 0 | divided_by: 100.0 }};
     }
     #ad-lander-{{ section.id }} .p5-inner {
-      position: relative; z-index: 1;
+      position: absolute;
+      top: 65%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      z-index: 1;
     }
     #ad-lander-{{ section.id }} .p5-header {
       margin-bottom: 20px;
