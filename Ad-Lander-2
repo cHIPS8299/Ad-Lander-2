@@ -162,76 +162,78 @@
     #ad-lander-{{ section.id }} .p5-next { right: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
 
     /* =========================
-       PART 6: Product Cards (fresh)
+       PART 6: Product Showcase
        ========================= */
     #ad-lander-{{ section.id }} .p6 { padding-block: var(--space-y, 72px); }
-    #ad-lander-{{ section.id }} .p6-grid {
+    #ad-lander-{{ section.id }} .showcase {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px;
-    }
-    @media (max-width: 1100px) {
-      #ad-lander-{{ section.id }} .p6-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 40px;
     }
     @media (max-width: 700px) {
-      #ad-lander-{{ section.id }} .p6-grid { grid-template-columns: 1fr; }
+      #ad-lander-{{ section.id }} .showcase { grid-template-columns: 1fr; }
     }
 
     #ad-lander-{{ section.id }} .product-card {
+      position: relative;
       border: var(--wire-border, 1px solid #e0e0e0);
       border-radius: var(--radius, 16px);
+      overflow: hidden;
       background: #fff;
-      padding: 14px;
-      display: grid;
-      gap: 12px;
-      position: relative;
     }
 
     #ad-lander-{{ section.id }} .product-card:focus-within {
       outline: 2px solid #000; outline-offset: 2px;
     }
 
-    #ad-lander-{{ section.id }} .img-frame {
-      aspect-ratio: 9 / 14;
-      position: relative;
-      border-radius: var(--radius, 16px);
+    #ad-lander-{{ section.id }} .product-card .media {
+      aspect-ratio: 4 / 5;
       overflow: hidden;
-      border: var(--wire-border, 1px solid #e0e0e0);
-      background: #f5f5f5;
     }
-    #ad-lander-{{ section.id }} .img-frame img {
-      position: absolute; inset: 0;
+    #ad-lander-{{ section.id }} .product-card .media img {
       width: 100%; height: 100%;
       object-fit: cover;
-      transition: transform .25s ease;
     }
 
-    #ad-lander-{{ section.id }} .copy {
+    #ad-lander-{{ section.id }} .product-card .details {
+      padding: 16px;
       display: grid;
-      gap: 10px;
-      transition: transform .25s ease, opacity .25s ease;
+      gap: 12px;
+      background: #fff;
+      transition: transform .3s ease;
     }
-    #ad-lander-{{ section.id }} .sub.rte { color: #5a5a5a; line-height: 1.5; }
-
-    #ad-lander-{{ section.id }} .btn {
+    #ad-lander-{{ section.id }} .product-card .btn {
       display: inline-flex; align-items: center; justify-content: center;
       padding: 10px 18px; border-radius: 999px;
       border: var(--wire-border, 1px solid #e0e0e0);
       background: white; color: #222; text-decoration: none; font-size: 14px;
       transition: transform .2s ease, box-shadow .2s ease;
     }
-    #ad-lander-{{ section.id }} .btn:hover { transform: translateY(-1px); box-shadow: 0 2px 10px rgba(0,0,0,.06); }
-    #ad-lander-{{ section.id }} .btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+    #ad-lander-{{ section.id }} .product-card .btn:hover { transform: translateY(-1px); box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+    #ad-lander-{{ section.id }} .product-card .btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
 
-    /* Hover / focus animation: image left, subhead right */
-    @media (prefers-reduced-motion: no-preference) {
-      #ad-lander-{{ section.id }} .product-card:hover .img-frame img,
-      #ad-lander-{{ section.id }} .product-card:focus-within .img-frame img {
-        transform: translateX(-12px);
+    #ad-lander-{{ section.id }} .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    @media (max-width: 700px) {
+      #ad-lander-{{ section.id }} .product-card .details { display: none; }
+      #ad-lander-{{ section.id }} .product-card.open .details { display: grid; }
+      #ad-lander-{{ section.id }} .product-card .toggle {
+        position: absolute; inset: 0;
+        background: transparent; border: 0; cursor: pointer;
       }
-      #ad-lander-{{ section.id }} .product-card:hover .copy,
-      #ad-lander-{{ section.id }} .product-card:focus-within .copy {
-        transform: translateX(12px);
+    }
+
+    @media (hover:hover) and (pointer:fine) {
+      #ad-lander-{{ section.id }} .product-card.left:hover .media img,
+      #ad-lander-{{ section.id }} .product-card.left:focus-within .media img {
+        transform: translateX(-20px);
+      }
+      #ad-lander-{{ section.id }} .product-card.right:hover .media img,
+      #ad-lander-{{ section.id }} .product-card.right:focus-within .media img {
+        transform: translateX(20px);
       }
     }
 
@@ -443,82 +445,93 @@
   </div>
   {% endif %}
 
-  <!-- =========================
-       PART 6: Product Cards
-       ========================= -->
-  {% if section.settings.show_p6 %}
-    <div class="part p6">
-      <div class="container">
-        <div class="p6-grid" role="list" aria-label="Product cards">
-          {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
-          {%- if product_blocks.size > 0 -%}
-            {%- for block in product_blocks -%}
-              {%- liquid
-                assign chosen_product = block.settings.product
-                assign manual_img = block.settings.image
-                assign final_img = manual_img
-                if final_img == blank and chosen_product and chosen_product.featured_image
-                  assign final_img = chosen_product.featured_image
-                endif
+    <!-- =========================
+         PART 6: Product Cards
+         ========================= -->
+    {% if section.settings.show_p6 %}
+      <div class="part p6">
+        <div class="container">
+          <div class="showcase" role="list" aria-label="Product cards">
+            {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
+            {%- if product_blocks.size > 0 -%}
+              {%- for block in product_blocks -%}
+                {%- liquid
+                  assign chosen_product = block.settings.product
+                  assign manual_img = block.settings.image
+                  assign final_img = manual_img
+                  if final_img == blank and chosen_product and chosen_product.featured_image
+                    assign final_img = chosen_product.featured_image
+                  endif
 
-                assign alt_text = block.settings.alt
-                if alt_text == blank and chosen_product
-                  assign alt_text = chosen_product.title
-                endif
-                if alt_text == blank
-                  assign alt_text = 'Product image'
-                endif
+                  assign alt_text = block.settings.alt
+                  if alt_text == blank and chosen_product
+                    assign alt_text = chosen_product.title
+                  endif
+                  if alt_text == blank
+                    assign alt_text = 'Product image'
+                  endif
 
-                assign cta_label = block.settings.cta_label
-                assign cta_url = block.settings.cta_url
-                if cta_url == blank and chosen_product
-                  assign cta_url = chosen_product.url
-                endif
-              -%}
-              <article class="product-card" role="listitem" {{ block.shopify_attributes }}>
-                <div class="img-frame">
-                  {%- if final_img != blank -%}
-                    {{ final_img | image_url: width: 1200 | image_tag:
-                      loading: 'lazy',
-                      alt: alt_text
-                    }}
-                  {%- else -%}
-                    <div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div>
-                  {%- endif -%}
-                </div>
+                  assign cta_label = block.settings.cta_label
+                  assign cta_url = block.settings.cta_url
+                  if cta_url == blank and chosen_product
+                    assign cta_url = chosen_product.url
+                  endif
+                -%}
+                <article class="product-card{% if forloop.index0 % 2 == 0 %} left{% else %} right{% endif %}" role="listitem" {{ block.shopify_attributes }}>
+                  <div class="media">
+                    {%- if final_img != blank -%}
+                      {{ final_img | image_url: width: 1200 | image_tag:
+                        loading: 'lazy',
+                        alt: alt_text
+                      }}
+                    {%- else -%}
+                      <div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div>
+                    {%- endif -%}
+                  </div>
 
-                <div class="copy">
-                  {%- if block.settings.subhead != blank -%}
-                    <div class="sub rte">{{ block.settings.subhead }}</div>
-                  {%- endif -%}
-                </div>
-
-                {%- if cta_label != blank -%}
-                  <a class="btn"
-                     href="{{ cta_url }}"
-                     {% if block.settings.cta_newtab %}target="_blank" rel="noopener noreferrer"{% endif %}
-                     aria-label="{{ cta_label | strip }}">
-                    {{ cta_label }}
-                  </a>
-                {%- endif -%}
-              </article>
-            {%- endfor -%}
-          {%- else -%}
-            {%- comment -%} Placeholder cards when no blocks exist {%- endcomment -%}
-            {% for i in (1..2) %}
-              <article class="product-card" role="listitem">
-                <div class="img-frame"><div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div></div>
-                <div class="copy"><div class="sub">Subhead</div></div>
-                <a class="btn" href="#" aria-label="CTA">CTA</a>
-              </article>
-            {% endfor %}
-          {%- endif -%}
+                  <div id="details-{{ block.id }}" class="details">
+                    {%- if chosen_product -%}
+                      <div class="h1">{{ chosen_product.title }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.subhead != blank -%}
+                      <div class="sub rte">{{ block.settings.subhead }}</div>
+                    {%- endif -%}
+                    {%- if cta_label != blank -%}
+                      <a class="btn"
+                         href="{{ cta_url }}"
+                         {% if block.settings.cta_newtab %}target="_blank" rel="noopener noreferrer"{% endif %}
+                         aria-label="{{ cta_label | strip }}">
+                        {{ cta_label }}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                  <button class="toggle" aria-expanded="false" aria-controls="details-{{ block.id }}">
+                    <span class="sr-only">Toggle {{ chosen_product.title | default: 'product' }} details</span>
+                  </button>
+                </article>
+              {%- endfor -%}
+            {%- else -%}
+              {%- comment -%} Placeholder cards when no blocks exist {%- endcomment -%}
+              {% for i in (1..2) %}
+                <article class="product-card{% if forloop.index0 % 2 == 0 %} left{% else %} right{% endif %}" role="listitem">
+                  <div class="media"><div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div></div>
+                  <div id="placeholder-details-{{ forloop.index }}" class="details">
+                    <div class="h1">Product title</div>
+                    <div class="sub">Subhead</div>
+                    <a class="btn" href="#" aria-label="CTA">CTA</a>
+                  </div>
+                  <button class="toggle" aria-expanded="false" aria-controls="placeholder-details-{{ forloop.index }}"><span class="sr-only">Toggle details</span></button>
+                </article>
+              {% endfor %}
+            {%- endif -%}
+          </div>
         </div>
       </div>
-    </div>
-  {% endif %}
+{% endif %}
 </section>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 <script>
   (function(){
     const root = document.getElementById('ad-lander-{{ section.id }}');
@@ -573,6 +586,44 @@
       toggleArrows();
       window.addEventListener('resize', toggleArrows);
     }
+
+    // PART 6: Product showcase interactions
+    const showcaseCards = root.querySelectorAll('.p6 .product-card');
+    showcaseCards.forEach((card, idx) => {
+      const img = card.querySelector('.media img');
+      const details = card.querySelector('.details');
+      const toggle = card.querySelector('.toggle');
+      const dir = idx % 2 === 0 ? -1 : 1;
+
+      if (window.gsap) {
+        if (window.ScrollTrigger) {
+          gsap.from(card, {
+            opacity: 0,
+            y: 40,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: card, start: 'top 80%' }
+          });
+        }
+        if (img && details) {
+          const tl = gsap.timeline({ paused: true });
+          tl.to(img, { x: 20 * dir, duration: 0.3 }, 0)
+            .to(details, { x: -20 * dir, duration: 0.3 }, 0);
+          card.addEventListener('mouseenter', () => tl.play());
+          card.addEventListener('mouseleave', () => tl.reverse());
+          card.addEventListener('focusin', () => tl.play());
+          card.addEventListener('focusout', () => tl.reverse());
+        }
+      }
+
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const open = card.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', open);
+        });
+      }
+    });
+
   }());
 </script>
 
