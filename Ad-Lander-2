@@ -155,6 +155,7 @@
     #ad-lander-{{ section.id }} .card .menu-btn {
       position: absolute; top: 8px; right: 8px; border: none; background: transparent;
       font-size: 20px; cursor: pointer;
+      z-index: 1; color: var(--wire-gray-700);
     }
     #ad-lander-{{ section.id }} .card .description { display: none; }
     #ad-lander-{{ section.id }} .card.expanded {
@@ -480,7 +481,7 @@
             {%- for block in ingredient_blocks -%}
               <div class="card" role="listitem" {{ block.shopify_attributes }}>
                 {% if block.settings.description != blank %}
-                  <button class="menu-btn" type="button" aria-label="Toggle description">&#9776;</button>
+                  <button class="menu-btn" type="button" aria-label="Toggle description" aria-expanded="false">&#9776;</button>
                 {% endif %}
                 <div class="main">
                   <div class="img-frame">
@@ -643,7 +644,9 @@
     root.querySelectorAll('.p5 .card .menu-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const card = btn.closest('.card');
-        card.classList.toggle('expanded');
+        const expanded = card.classList.toggle('expanded');
+        btn.setAttribute('aria-expanded', expanded);
+        btn.innerHTML = expanded ? '&times;' : '&#9776;';
       });
     });
 
