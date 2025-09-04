@@ -393,56 +393,69 @@
   {% endif %}
 
   <!-- =========================
-       PART 6: Content Group
-       Image + header + CTA
+       PART 6: Product Showcase
+       Product images (blocks) with subhead + CTA under
+       Supports Product picker OR manual fields
        ========================= -->
   {% if section.settings.show_p6 %}
   <div class="part p6" role="list" aria-label="Content items">
-        {%- assign content_blocks = section.blocks | where: 'type', 'content_group' -%}
-        {%- if content_blocks.size > 0 -%}
-          {%- for block in content_blocks limit: 3 -%}
-            {%- liquid
-              assign final_img = block.settings.image
-              assign header = block.settings.header
-              assign cta_label = block.settings.cta_label
-              assign cta_url = block.settings.cta_url
-              assign img_max = block.settings.image_max_width | default: 250
-              assign frame_style = 'width: 100%; max-width: ' | append: img_max | append: 'px;'
-            -%}
-            <article class="p6-item" role="listitem" {{ block.shopify_attributes }}>
-              <div class="img-frame" style="{{ frame_style }}">
-                {% if final_img != blank %}
-                  {{ final_img | image_url: width: 1200 | image_tag:
-                    loading: 'lazy',
-                    alt: block.settings.alt | default: 'Card image'
-                  }}
-                {% else %}
-                  <div class="placeholder">9:14 image</div>
-                {% endif %}
-              </div>
-              {% if header != blank %}
-                <div class="h1 rte">{{ header }}</div>
-              {% endif %}
-              {% if cta_label != blank %}
-                <a class="btn"
-                   href="{{ cta_url }}"
-                   {% if block.settings.cta_newtab %}target="_blank" rel="noopener noreferrer"{% endif %}
-                   aria-label="{{ cta_label | strip }}">
-                  {{ cta_label }}
-                </a>
-              {% endif %}
-            </article>
-          {%- endfor -%}
-        {%- else -%}
-          <!-- Three placeholder content groups -->
-          {% for i in (1..3) %}
-            <article class="p6-item" role="listitem">
-              <div class="img-frame"><div class="placeholder">9:14 image</div></div>
-              <div class="h1">Header</div>
-              <a class="btn" href="#" aria-label="CTA">CTA</a>
-            </article>
-          {% endfor %}
-        {%- endif -%}
+    {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
+    {%- if product_blocks.size > 0 -%}
+      {%- for block in product_blocks -%}
+        {%- liquid
+          assign chosen_product = block.settings.product
+          assign manual_img = block.settings.image
+          assign final_img = manual_img
+          if final_img == blank and chosen_product and chosen_product.featured_image
+            assign final_img = chosen_product.featured_image
+          endif
+
+          assign alt_text = block.settings.alt
+          if alt_text == blank and chosen_product
+            assign alt_text = chosen_product.title
+          endif
+          if alt_text == blank
+            assign alt_text = 'Product image'
+          endif
+          assign cta_label = block.settings.cta_label
+          assign cta_url = block.settings.cta_url
+        -%}
+        <article class="product-card" role="listitem" {{ block.shopify_attributes }}>
+          <div class="img-frame" style="aspect-ratio: 9 / 14;">
+            {%- if final_img != blank -%}
+              {{ final_img | image_url: width: 1200 | image_tag:
+                loading: 'lazy',
+                alt: alt_text
+              }}
+            {%- else -%}
+              <div class="placeholder">9:14 image</div>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.subhead != blank -%}
+            <div class="sub rte">{{ block.settings.subhead }}</div>
+          {%- endif -%}
+
+          {% if cta_label != blank %}
+            <a class="btn"
+               href="{{ cta_url }}"
+               {% if block.settings.cta_newtab %}target="_blank" rel="noopener noreferrer"{% endif %}
+               aria-label="{{ cta_label | strip }}">
+              {{ cta_label }}
+            </a>
+          {% endif %}
+        </article>
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment -%} Optional placeholder cards when no blocks exist {%- endcomment -%}
+      {% for i in (1..2) %}
+        <article class="product-card" role="listitem">
+          <div class="img-frame" style="aspect-ratio: 9 / 14;"><div class="placeholder">9:14 image</div></div>
+          <div class="sub">Subhead</div>
+          <a class="btn" href="#" aria-label="CTA">CTA</a>
+        </article>
+      {% endfor %}
+    {%- endif -%}
   </div>
   {% endif %}
 </section>
