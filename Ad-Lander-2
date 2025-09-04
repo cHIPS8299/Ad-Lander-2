@@ -174,8 +174,13 @@
       background: rgba(255,255,255,0.9); backdrop-filter: saturate(120%) blur(2px);
       display: grid; gap: 10px; width: min(var(--p5-card-width), 75vw); padding: 12px;
       position: relative; grid-template-columns: min(var(--p5-card-width), 75vw); transition: width .3s ease;
+      overflow: hidden;
     }
     #ad-lander-{{ section.id }} .card .img-frame { aspect-ratio: 2 / 3; }
+    #ad-lander-{{ section.id }} .p5 .card .img-frame img {
+      object-fit: contain;
+      object-position: center;
+    }
     #ad-lander-{{ section.id }} .card .menu-btn {
       position: absolute; top: 8px; right: 8px; border: none; background: transparent;
       font-size: 20px; cursor: pointer;
