@@ -182,9 +182,13 @@
     }
     #ad-lander-{{ section.id }} .card .description { display: none; }
     #ad-lander-{{ section.id }} .card.expanded {
-      grid-template-columns: min(250px, 75vw) 1fr; width: min(470px, 90vw);
+      grid-template-columns: repeat(2, min(250px, 75vw));
+      width: calc(min(250px, 75vw) * 2 + 10px);
     }
-    #ad-lander-{{ section.id }} .card.expanded .description { display: block; }
+    #ad-lander-{{ section.id }} .card.expanded .description {
+      display: block;
+      width: min(250px, 75vw);
+    }
     #ad-lander-{{ section.id }} .card .main { display: grid; gap: 10px; width: min(250px, 75vw); }
     #ad-lander-{{ section.id }} .p5-arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
