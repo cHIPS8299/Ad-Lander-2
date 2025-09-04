@@ -55,6 +55,7 @@
     #ad-lander-{{ section.id }} .h1 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.15; margin: 0; color: var(--wire-gray-700); }
     #ad-lander-{{ section.id }} .sub { color: var(--wire-gray-500); font-size: clamp(14px, 1.6vw, 18px); line-height: 1.5; }
     #ad-lander-{{ section.id }} .rte { display: grid; gap: 8px; }
+    #ad-lander-{{ section.id }} .rte > * { margin: 0; }
 
 
     #ad-lander-{{ section.id }} .rte [data-align] { display: block; width: 100%; }
@@ -88,6 +89,7 @@
     }
 
     /* Part 1 (Intro Header) */
+    #ad-lander-{{ section.id }} .p1 .copy { display: grid; gap: 4px; }
 
     /* Part 2 (Mission Statement, contained panel with bg) */
     #ad-lander-{{ section.id }} .p2-panel {
@@ -111,7 +113,7 @@
     #ad-lander-{{ section.id }} .p2-inner {
       position: relative; z-index: 1;
       padding: clamp(28px, 6vw, 64px);
-      display: grid; gap: 12px; text-align: center;
+      display: grid; gap: 4px; text-align: center;
       justify-items: center;
     }
 
