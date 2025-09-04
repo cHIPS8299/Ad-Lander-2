@@ -42,6 +42,7 @@
       --p5-height: {{ section.settings.p5_height | default: 400 }}px;
       --p5-gap-top: {{ p5_gap_top }}px;
       --p5-header-lift: {{ section.settings.p5_header_lift | default: 0 }}px;
+      --p5-card-width: {{ section.settings.p5_card_width | default: 250 }}px;
       --product-image-width: {{ section.settings.product_image_width | default: 300 }}px;
       --product-image-width-mobile: {{ section.settings.product_image_width_mobile | default: 220 }}px;
       --wire-gray-100: #f5f5f5;
@@ -171,8 +172,8 @@
     #ad-lander-{{ section.id }} .card {
       scroll-snap-align: start; border: var(--wire-border); border-radius: var(--radius);
       background: rgba(255,255,255,0.9); backdrop-filter: saturate(120%) blur(2px);
-      display: grid; gap: 10px; width: min(250px, 75vw); padding: 12px;
-      position: relative; grid-template-columns: min(250px, 75vw); transition: width .3s ease;
+      display: grid; gap: 10px; width: min(var(--p5-card-width), 75vw); padding: 12px;
+      position: relative; grid-template-columns: min(var(--p5-card-width), 75vw); transition: width .3s ease;
     }
     #ad-lander-{{ section.id }} .card .img-frame { aspect-ratio: 2 / 3; }
     #ad-lander-{{ section.id }} .card .menu-btn {
@@ -182,17 +183,17 @@
     }
     #ad-lander-{{ section.id }} .card .description { display: none; }
     #ad-lander-{{ section.id }} .card.expanded {
-      grid-template-columns: repeat(2, min(250px, 75vw));
+      grid-template-columns: repeat(2, min(var(--p5-card-width), 75vw));
 
       /* include gap, padding, and border so content doesn't overflow */
-      width: calc(min(250px, 75vw) * 2 + 36px);
+      width: calc(min(var(--p5-card-width), 75vw) * 2 + 36px);
 
-      width: calc(min(250px, 75vw) * 2 + 10px);
+      width: calc(min(var(--p5-card-width), 75vw) * 2 + 10px);
 
     }
     #ad-lander-{{ section.id }} .card.expanded .description {
       display: block;
-      width: min(250px, 75vw);
+      width: min(var(--p5-card-width), 75vw);
 
       overflow-wrap: anywhere;
 
@@ -837,6 +838,7 @@
       { "type": "range", "id": "p5_header_lift", "label": "Raise header (px)", "min": 0, "max": 200, "step": 4, "default": 0 },
       { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
       { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
+      { "type": "range", "id": "p5_card_width", "label": "Card width (px)", "min": 150, "max": 400, "step": 10, "default": 250 },
     { "type": "header", "content": "Product showcase" },
     { "type": "range", "id": "product_image_width", "label": "Product image width (px)", "min": 100, "max": 600, "step": 10, "default": 300 },
     { "type": "range", "id": "product_image_width_mobile", "label": "Product image width - mobile (px)", "min": 100, "max": 400, "step": 10, "default": 220 },
