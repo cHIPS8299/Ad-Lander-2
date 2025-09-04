@@ -24,7 +24,7 @@
     assign g  = section.settings.gutter | default: 24
     assign r  = section.settings.corner_radius | default: 16
     assign space = section.settings.section_space | default: 72
-    assign p2_gap = section.settings.p2_gap | default: 4
+    assign p2_gap = section.settings.p2_gap | default: 2
     -%}
 
   <style>
