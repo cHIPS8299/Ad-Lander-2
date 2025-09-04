@@ -25,9 +25,9 @@
     assign r  = section.settings.corner_radius | default: 16
     assign space = section.settings.section_space | default: 72
     assign p2_gap = section.settings.p2_gap | default: 2
-    assign p5_pad_top = section.settings.p5_padding_top
-    if p5_pad_top == blank
-      assign p5_pad_top = space | times: 1.25
+    assign p5_gap_top = section.settings.p5_padding_top
+    if p5_gap_top == blank
+      assign p5_gap_top = space | times: 1.25
     endif
     -%}
 
@@ -40,7 +40,7 @@
       --p2-height: {{ section.settings.p2_height | default: 400 }}px;
       --p2-gap: {{ p2_gap }}px;
       --p5-height: {{ section.settings.p5_height | default: 400 }}px;
-      --p5-pad-top: {{ p5_pad_top }}px;
+      --p5-gap-top: {{ p5_gap_top }}px;
       --product-image-width: {{ section.settings.product_image_width | default: 300 }}px;
       --product-image-width-mobile: {{ section.settings.product_image_width_mobile | default: 220 }}px;
       --wire-gray-100: #f5f5f5;
@@ -133,7 +133,7 @@
     /* Part 5 (Ingredient Cards, FULL BLEED background, horizontal scroll) */
       #ad-lander-{{ section.id }} .p5 {
         position: relative;
-        padding-top: var(--p5-pad-top);
+        margin-top: var(--p5-gap-top);
         padding-bottom: calc(var(--space-y) * 1.25);
         min-height: var(--p5-height);
       }
@@ -147,7 +147,7 @@
     }
     #ad-lander-{{ section.id }} .p5-inner {
       position: absolute;
-      top: 65%;
+      top: 60%;
       left: 0;
       width: 100%;
       transform: translateY(-50%);
@@ -797,7 +797,7 @@
     { "type": "color", "id": "p5_overlay", "label": "Overlay color", "default": "#000000" },
       { "type": "range", "id": "p5_overlay_opacity", "label": "Overlay opacity (%)", "min": 0, "max": 95, "step": 5, "default": 0 },
       { "type": "range", "id": "p5_height", "label": "Section min height (px)", "min": 200, "max": 1600, "step": 20, "default": 400 },
-      { "type": "range", "id": "p5_padding_top", "label": "Top padding above Part 5 (px)", "min": 0, "max": 200, "step": 4, "default": 4 },
+      { "type": "range", "id": "p5_padding_top", "label": "Space above Part 5 (px)", "min": 0, "max": 200, "step": 4, "default": 90 },
       { "type": "richtext", "id": "p5_header", "label": "Header" },
       { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
       { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
