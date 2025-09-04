@@ -154,7 +154,7 @@
       z-index: 1;
     }
     #ad-lander-{{ section.id }} .p5-header {
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
     #ad-lander-{{ section.id }} .track-wrap {
       position: relative;
@@ -167,8 +167,8 @@
     #ad-lander-{{ section.id }} .card {
       scroll-snap-align: start; border: var(--wire-border); border-radius: var(--radius);
       background: rgba(255,255,255,0.9); backdrop-filter: saturate(120%) blur(2px);
-      display: grid; gap: 10px; width: min(280px, 75vw); padding: 12px;
-      position: relative; grid-template-columns: min(280px, 75vw); transition: width .3s ease;
+      display: grid; gap: 10px; width: min(250px, 75vw); padding: 12px;
+      position: relative; grid-template-columns: min(250px, 75vw); transition: width .3s ease;
     }
     #ad-lander-{{ section.id }} .card .img-frame { aspect-ratio: 2 / 3; }
     #ad-lander-{{ section.id }} .card .menu-btn {
@@ -178,10 +178,10 @@
     }
     #ad-lander-{{ section.id }} .card .description { display: none; }
     #ad-lander-{{ section.id }} .card.expanded {
-      grid-template-columns: min(280px, 75vw) 1fr; width: min(500px, 90vw);
+      grid-template-columns: min(250px, 75vw) 1fr; width: min(470px, 90vw);
     }
     #ad-lander-{{ section.id }} .card.expanded .description { display: block; }
-    #ad-lander-{{ section.id }} .card .main { display: grid; gap: 10px; width: min(280px, 75vw); }
+    #ad-lander-{{ section.id }} .card .main { display: grid; gap: 10px; width: min(250px, 75vw); }
     #ad-lander-{{ section.id }} .p5-arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
       width: 40px; height: 40px; border-radius: 999px; border: var(--wire-border); background: #fff;
