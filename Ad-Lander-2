@@ -86,7 +86,6 @@
     }
 
     /* Part 1 (Intro Header) */
-    #ad-lander-{{ section.id }} .p1 .img-frame { aspect-ratio: 4 / 5; }
 
     /* Part 2 (Mission Statement, contained panel with bg) */
     #ad-lander-{{ section.id }} .p2-panel {
@@ -195,22 +194,22 @@
             <div class="sub rte">{{ section.settings.p1_subhead }}</div>
           {% endif %}
         </div>
-        <div>
-          <div class="img-frame">
-            {% if section.settings.p1_image != blank %}
-              {{ section.settings.p1_image | image_url: width: 1600 | image_tag:
-                loading: 'lazy',
-                alt: section.settings.p1_image_alt | default: 'Intro image'
-              }}
-            {% else %}
-              <div class="placeholder">4:5 image</div>
-            {% endif %}
-          </div>
-        </div>
+        {% assign p1_max = section.settings.p1_image_max_width | default: 600 %}
+        {% assign p1_rot = section.settings.p1_image_rotation | default: 0 %}
+        {% assign p1_style = 'width: 100%; max-width: ' | append: p1_max | append: 'px; transform: rotate(' | append: p1_rot | append: 'deg);' %}
+        {% if section.settings.p1_image != blank %}
+          {{ section.settings.p1_image | image_url: width: 1600 | image_tag:
+            loading: 'lazy',
+            alt: section.settings.p1_image_alt | default: 'Intro image',
+            style: p1_style
+          }}
+        {% else %}
+          <div class="placeholder">4:5 image</div>
+        {% endif %}
       </div>
     </div>
   </div>
-  {% endif %}
+{% endif %}
 
   <!-- =========================
        PART 2: Mission Statement
@@ -537,8 +536,10 @@
     { "type": "header", "content": "Part 1 — Intro" },
     { "type": "richtext", "id": "p1_header", "label": "Header" },
     { "type": "richtext", "id": "p1_subhead", "label": "Subhead" },
-    { "type": "image_picker", "id": "p1_image", "label": "Right image (4:5)" },
+    { "type": "image_picker", "id": "p1_image", "label": "Right image" },
     { "type": "text", "id": "p1_image_alt", "label": "Right image alt text" },
+    { "type": "range", "id": "p1_image_max_width", "label": "Image max width (px)", "min": 100, "max": 1000, "step": 10, "default": 600 },
+    { "type": "range", "id": "p1_image_rotation", "label": "Image rotation (deg)", "min": -45, "max": 45, "step": 1, "default": 0 },
 
     { "type": "header", "content": "Part 2 — Mission" },
     { "type": "image_picker", "id": "p2_bg", "label": "Background image (contained)" },
