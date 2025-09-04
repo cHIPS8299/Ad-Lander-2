@@ -478,9 +478,8 @@
           {%- assign ingredient_blocks = section.blocks | where: 'type', 'ingredient_card' -%}
           {%- if ingredient_blocks.size > 0 -%}
             {%- for block in ingredient_blocks -%}
-              {% assign has_description = block.settings.description != blank %}
               <div class="card" role="listitem" {{ block.shopify_attributes }}>
-                {% if has_description %}
+                {% if block.settings.description != blank %}
                   <button class="menu-btn" type="button" aria-label="Toggle description">&#9776;</button>
                 {% endif %}
                 <div class="main">
@@ -502,7 +501,7 @@
                     ">{{ block.settings.subhead }}</div>
                   {% endif %}
                 </div>
-                {% if has_description %}
+                {% if block.settings.description != blank %}
                   <div class="description rte">{{ block.settings.description }}</div>
                 {% endif %}
               </div>
