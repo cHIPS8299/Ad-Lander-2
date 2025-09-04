@@ -172,7 +172,7 @@
 
     /* Part 6 (Product images with subhead + CTA) */
     #ad-lander-{{ section.id }} .p6-grid {
-      display: grid; gap: 28px; grid-template-columns: repeat(3, 1fr); text-align: center;
+      display: grid; gap: 28px; grid-template-columns: repeat(3, 1fr); text-align: center; padding-inline: var(--gutter);
     }
     #ad-lander-{{ section.id }} .product-item {
       display: grid; gap: 12px; justify-items: center;
@@ -181,6 +181,7 @@
       aspect-ratio: 9 / 14;
       width: 100%;
     }
+    #ad-lander-{{ section.id }} .p6 .img-frame { overflow: visible; }
     #ad-lander-{{ section.id }} .product-item .sub { min-height: 1.5em; }
 
     /* Section-specific text colors */
@@ -399,8 +400,7 @@
        ========================= -->
   {% if section.settings.show_p6 %}
   <div class="part p6">
-    <div class="container">
-      <div class="p6-grid" role="list" aria-label="Products">
+    <div class="p6-grid" role="list" aria-label="Products">
         {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
         {%- if product_blocks.size > 0 -%}
           {%- for block in product_blocks limit: 3 -%}
@@ -445,7 +445,6 @@
             </article>
           {% endfor %}
         {%- endif -%}
-      </div>
     </div>
   </div>
   {% endif %}
