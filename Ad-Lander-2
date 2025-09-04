@@ -477,7 +477,7 @@
                     assign cta_url = chosen_product.url
                   endif
                 -%}
-                <article class="product-card{% if forloop.index0 % 2 == 0 %} left{% else %} right{% endif %}" role="listitem" {{ block.shopify_attributes }}>
+                <article class="product-card{% if forloop.index0 modulo 2 == 0 %} left{% else %} right{% endif %}" role="listitem" {{ block.shopify_attributes }}>
                   <div class="media">
                     {%- if final_img != blank -%}
                       {{ final_img | image_url: width: 1200 | image_tag:
@@ -513,7 +513,7 @@
             {%- else -%}
               {%- comment -%} Placeholder cards when no blocks exist {%- endcomment -%}
               {% for i in (1..2) %}
-                <article class="product-card{% if forloop.index0 % 2 == 0 %} left{% else %} right{% endif %}" role="listitem">
+                <article class="product-card{% if forloop.index0 modulo 2 == 0 %} left{% else %} right{% endif %}" role="listitem">
                   <div class="media"><div class="placeholder" aria-hidden="true" style="display:grid;place-items:center;color:#9a9a9a;font-size:12px;width:100%;height:100%;">9:14 image</div></div>
                   <div id="placeholder-details-{{ forloop.index }}" class="details">
                     <div class="h1">Product title</div>
