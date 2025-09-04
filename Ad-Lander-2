@@ -149,8 +149,19 @@
       scroll-snap-align: start; border: var(--wire-border); border-radius: var(--radius);
       background: rgba(255,255,255,0.9); backdrop-filter: saturate(120%) blur(2px);
       display: grid; gap: 10px; width: min(280px, 75vw); padding: 12px;
+      position: relative; grid-template-columns: 1fr; transition: width .3s ease;
     }
     #ad-lander-{{ section.id }} .card .img-frame { aspect-ratio: 2 / 3; }
+    #ad-lander-{{ section.id }} .card .menu-btn {
+      position: absolute; top: 8px; right: 8px; border: none; background: transparent;
+      font-size: 20px; cursor: pointer;
+    }
+    #ad-lander-{{ section.id }} .card .description { display: none; }
+    #ad-lander-{{ section.id }} .card.expanded {
+      grid-template-columns: 1fr 1fr; width: min(500px, 90vw);
+    }
+    #ad-lander-{{ section.id }} .card.expanded .description { display: block; }
+    #ad-lander-{{ section.id }} .card .main { display: grid; gap: 10px; }
     #ad-lander-{{ section.id }} .p5-arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
       width: 40px; height: 40px; border-radius: 999px; border: var(--wire-border); background: #fff;
@@ -467,19 +478,32 @@
           {%- assign ingredient_blocks = section.blocks | where: 'type', 'ingredient_card' -%}
           {%- if ingredient_blocks.size > 0 -%}
             {%- for block in ingredient_blocks -%}
+              {% assign has_description = block.settings.description != blank %}
               <div class="card" role="listitem" {{ block.shopify_attributes }}>
-                <div class="img-frame">
-                  {% if block.settings.image != blank %}
-                    {{ block.settings.image | image_url: width: 900 | image_tag:
-                      loading: 'lazy',
-                      alt: block.settings.alt | default: 'Ingredient image'
-                    }}
-                  {% else %}
-                    <div class="placeholder">2:3 image</div>
+                {% if has_description %}
+                  <button class="menu-btn" type="button" aria-label="Toggle description">&#9776;</button>
+                {% endif %}
+                <div class="main">
+                  <div class="img-frame">
+                    {% if block.settings.image != blank %}
+                      {{ block.settings.image | image_url: width: 900 | image_tag:
+                        loading: 'lazy',
+                        alt: block.settings.alt | default: 'Ingredient image'
+                      }}
+                    {% else %}
+                      <div class="placeholder">2:3 image</div>
+                    {% endif %}
+                  </div>
+                  {% if block.settings.subhead != blank %}
+                    <div class="sub rte" style="
+                      {% if block.settings.subhead_color != blank %}color: {{ block.settings.subhead_color }};{% endif %}
+                      {% if block.settings.subhead_font_size %}font-size: {{ block.settings.subhead_font_size }}px;{% endif %}
+                      {% if block.settings.subhead_align != blank %}text-align: {{ block.settings.subhead_align }};{% endif %}
+                    ">{{ block.settings.subhead }}</div>
                   {% endif %}
                 </div>
-                {% if block.settings.subhead != blank %}
-                  <div class="sub rte">{{ block.settings.subhead }}</div>
+                {% if has_description %}
+                  <div class="description rte">{{ block.settings.description }}</div>
                 {% endif %}
               </div>
             {%- endfor -%}
@@ -487,8 +511,10 @@
             <!-- Placeholder cards when none added -->
             {% for i in (1..4) %}
               <div class="card" role="listitem">
-                <div class="img-frame"><div class="placeholder">2:3 image</div></div>
-                <div class="sub">Subhead</div>
+                <div class="main">
+                  <div class="img-frame"><div class="placeholder">2:3 image</div></div>
+                  <div class="sub">Subhead</div>
+                </div>
               </div>
             {% endfor %}
           {%- endif -%}
@@ -613,6 +639,14 @@
       toggleArrows();
       window.addEventListener('resize', toggleArrows);
     }
+
+    // Ingredient card menu toggle
+    root.querySelectorAll('.p5 .card .menu-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.card');
+        card.classList.toggle('expanded');
+      });
+    });
 
     // Product showcase hover classes
     const showcase = root.querySelector('#product-showcase');
@@ -744,7 +778,15 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Card image (2:3)" },
         { "type": "text", "id": "alt", "label": "Image alt text" },
-        { "type": "richtext", "id": "subhead", "label": "Subhead" }
+        { "type": "richtext", "id": "subhead", "label": "Subhead" },
+        { "type": "color", "id": "subhead_color", "label": "Subhead color" },
+        { "type": "range", "id": "subhead_font_size", "label": "Subhead font size", "min": 10, "max": 40, "default": 16, "unit": "px" },
+        { "type": "select", "id": "subhead_align", "label": "Subhead alignment", "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ], "default": "left" },
+        { "type": "richtext", "id": "description", "label": "Description" }
       ]
     }
   ],
