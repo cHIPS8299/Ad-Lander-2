@@ -147,7 +147,7 @@
     }
     #ad-lander-{{ section.id }} .p5-inner {
       position: absolute;
-      top: 60%;
+      top: 50%;
       left: 0;
       width: 100%;
       transform: translateY(-50%);
@@ -796,7 +796,7 @@
     { "type": "image_picker", "id": "p5_bg", "label": "Full-bleed background" },
     { "type": "color", "id": "p5_overlay", "label": "Overlay color", "default": "#000000" },
       { "type": "range", "id": "p5_overlay_opacity", "label": "Overlay opacity (%)", "min": 0, "max": 95, "step": 5, "default": 0 },
-      { "type": "range", "id": "p5_height", "label": "Section min height (px)", "min": 200, "max": 1600, "step": 20, "default": 400 },
+      { "type": "range", "id": "p5_height", "label": "Section min height (px)", "min": 200, "max": 2400, "step": 20, "default": 400 },
       { "type": "range", "id": "p5_padding_top", "label": "Space above Part 5 (px)", "min": 0, "max": 200, "step": 4, "default": 90 },
       { "type": "richtext", "id": "p5_header", "label": "Header" },
       { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
