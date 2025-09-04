@@ -11,7 +11,7 @@
         Part 1 image: 4/5
         Part 3 image: 4/5
         Part 5 cards: 2/3
-        Part 6 product images: 9/14
+        Part 6 images: 9/14
     - Product Showcase (Part 3) has a CSS hover: image nudges left, text nudges right
     - Accessibility:
         * Alt text inputs for all content images
@@ -170,19 +170,18 @@
     #ad-lander-{{ section.id }} .p5-prev { left: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
     #ad-lander-{{ section.id }} .p5-next { right: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
 
-    /* Part 6 (Product images with subhead + CTA) */
+    /* Part 6 (Image + header + CTA) */
     #ad-lander-{{ section.id }} .p6 {
       display: grid; gap: 28px; grid-template-columns: repeat(3, 1fr); text-align: center; padding-inline: var(--gutter);
     }
-    #ad-lander-{{ section.id }} .product-item {
+    #ad-lander-{{ section.id }} .p6-item {
       display: grid; gap: 12px; justify-items: center;
     }
-    #ad-lander-{{ section.id }} .product-item .img-frame {
+    #ad-lander-{{ section.id }} .p6-item .img-frame {
       aspect-ratio: 9 / 14;
       width: 100%;
     }
     #ad-lander-{{ section.id }} .p6 .img-frame { overflow: visible; }
-    #ad-lander-{{ section.id }} .product-item .sub { min-height: 1.5em; }
 
     /* Section-specific text colors */
     #ad-lander-{{ section.id }} .p1 .h1 { color: {{ section.settings.p1_header_color }}; }
@@ -195,7 +194,7 @@
     #ad-lander-{{ section.id }} .p4 .sub { color: {{ section.settings.p4_subhead_color }}; }
     #ad-lander-{{ section.id }} .p5 .h1 { color: {{ section.settings.p5_header_color }}; }
     #ad-lander-{{ section.id }} .p5 .sub { color: {{ section.settings.p5_subhead_color }}; }
-    #ad-lander-{{ section.id }} .p6 .sub { color: {{ section.settings.p6_subhead_color }}; }
+    #ad-lander-{{ section.id }} .p6 .h1 { color: {{ section.settings.p6_header_color }}; }
 
     /* Simple responsive stacking (we'll tune mobile later) */
     @media (max-width: 900px) {
@@ -394,23 +393,23 @@
   {% endif %}
 
   <!-- =========================
-       PART 6: Product Showcase
-       Product images (blocks) with subhead + CTA under
-       Supports Product picker OR manual fields
+       PART 6: Content Group
+       Image + header + CTA
        ========================= -->
   {% if section.settings.show_p6 %}
-  <div class="part p6" role="list" aria-label="Products">
-        {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
-        {%- if product_blocks.size > 0 -%}
-          {%- for block in product_blocks limit: 3 -%}
+  <div class="part p6" role="list" aria-label="Content items">
+        {%- assign content_blocks = section.blocks | where: 'type', 'content_group' -%}
+        {%- if content_blocks.size > 0 -%}
+          {%- for block in content_blocks limit: 3 -%}
             {%- liquid
               assign final_img = block.settings.image
+              assign header = block.settings.header
               assign cta_label = block.settings.cta_label
               assign cta_url = block.settings.cta_url
               assign img_max = block.settings.image_max_width | default: 250
               assign frame_style = 'width: 100%; max-width: ' | append: img_max | append: 'px;'
             -%}
-            <article class="product-item" role="listitem" {{ block.shopify_attributes }}>
+            <article class="p6-item" role="listitem" {{ block.shopify_attributes }}>
               <div class="img-frame" style="{{ frame_style }}">
                 {% if final_img != blank %}
                   {{ final_img | image_url: width: 1200 | image_tag:
@@ -421,8 +420,8 @@
                   <div class="placeholder">9:14 image</div>
                 {% endif %}
               </div>
-              {% if block.settings.subhead != blank %}
-                <div class="sub rte">{{ block.settings.subhead }}</div>
+              {% if header != blank %}
+                <div class="h1 rte">{{ header }}</div>
               {% endif %}
               {% if cta_label != blank %}
                 <a class="btn"
@@ -435,11 +434,11 @@
             </article>
           {%- endfor -%}
         {%- else -%}
-          <!-- Three placeholder products -->
+          <!-- Three placeholder content groups -->
           {% for i in (1..3) %}
-            <article class="product-item" role="listitem">
+            <article class="p6-item" role="listitem">
               <div class="img-frame"><div class="placeholder">9:14 image</div></div>
-              <div class="sub">Subhead</div>
+              <div class="h1">Header</div>
               <a class="btn" href="#" aria-label="CTA">CTA</a>
             </article>
           {% endfor %}
@@ -553,7 +552,7 @@
     { "type": "checkbox", "id": "show_p3", "label": "Show Part 3 (Showcase)", "default": true },
     { "type": "checkbox", "id": "show_p4", "label": "Show Part 4 (Intro+CTA)", "default": true },
     { "type": "checkbox", "id": "show_p5", "label": "Show Part 5 (Ingredients)", "default": true },
-    { "type": "checkbox", "id": "show_p6", "label": "Show Part 6 (Products)", "default": true },
+    { "type": "checkbox", "id": "show_p6", "label": "Show Part 6 (Content group)", "default": true },
 
     { "type": "header", "content": "Part 1 — Intro" },
     { "type": "richtext", "id": "p1_header", "label": "Header" },
@@ -600,8 +599,8 @@
     { "type": "richtext", "id": "p5_header", "label": "Header" },
     { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
     { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
-    { "type": "header", "content": "Part 6 — Products" },
-    { "type": "color", "id": "p6_subhead_color", "label": "Product subhead color", "default": "#9a9a9a" }
+    { "type": "header", "content": "Part 6 — Content group" },
+    { "type": "color", "id": "p6_header_color", "label": "Header color", "default": "#5a5a5a" }
   ],
   "blocks": [
     {
@@ -614,13 +613,13 @@
       ]
     },
     {
-        "type": "product_card",
-        "name": "Product",
+        "type": "content_group",
+        "name": "Content group",
         "settings": [
           { "type": "image_picker", "id": "image", "label": "Image (9:14)" },
           { "type": "range", "id": "image_max_width", "label": "Image max width (px)", "min": 50, "max": 600, "step": 10, "default": 250 },
           { "type": "text", "id": "alt", "label": "Image alt text" },
-          { "type": "richtext", "id": "subhead", "label": "Subhead" },
+          { "type": "richtext", "id": "header", "label": "Header" },
           { "type": "text", "id": "cta_label", "label": "CTA label" },
           { "type": "url", "id": "cta_url", "label": "CTA link" },
           { "type": "checkbox", "id": "cta_newtab", "label": "Open CTA in new tab", "default": false }
@@ -633,8 +632,8 @@
       "blocks": [
         { "type": "ingredient_card" },
         { "type": "ingredient_card" },
-        { "type": "product_card" },
-        { "type": "product_card" }
+        { "type": "content_group" },
+        { "type": "content_group" }
       ]
     }
   ]
