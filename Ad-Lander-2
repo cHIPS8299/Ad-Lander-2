@@ -41,6 +41,7 @@
       --p2-gap: {{ p2_gap }}px;
       --p5-height: {{ section.settings.p5_height | default: 400 }}px;
       --p5-gap-top: {{ p5_gap_top }}px;
+      --p5-header-lift: {{ section.settings.p5_header_lift | default: 0 }}px;
       --product-image-width: {{ section.settings.product_image_width | default: 300 }}px;
       --product-image-width-mobile: {{ section.settings.product_image_width_mobile | default: 220 }}px;
       --wire-gray-100: #f5f5f5;
@@ -155,6 +156,7 @@
     }
     #ad-lander-{{ section.id }} .p5-header {
       margin-bottom: 12px;
+      transform: translateY(calc(-1 * var(--p5-header-lift)));
     }
     #ad-lander-{{ section.id }} .track-wrap {
       position: relative;
@@ -799,6 +801,7 @@
       { "type": "range", "id": "p5_height", "label": "Section min height (px)", "min": 200, "max": 2400, "step": 25, "default": 400 },
       { "type": "range", "id": "p5_padding_top", "label": "Space above Part 5 (px)", "min": 0, "max": 200, "step": 4, "default": 90 },
       { "type": "richtext", "id": "p5_header", "label": "Header" },
+      { "type": "range", "id": "p5_header_lift", "label": "Raise header (px)", "min": 0, "max": 200, "step": 4, "default": 0 },
       { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
       { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
     { "type": "header", "content": "Product showcase" },
