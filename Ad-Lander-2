@@ -177,6 +177,10 @@
       overflow: hidden;
     }
     #ad-lander-{{ section.id }} .card .img-frame { aspect-ratio: 2 / 3; }
+    #ad-lander-{{ section.id }} .p5 .card .img-frame img {
+      object-fit: contain;
+      object-position: center;
+    }
     #ad-lander-{{ section.id }} .card .menu-btn {
       position: absolute; top: 8px; right: 8px; border: none; background: transparent;
       font-size: 20px; cursor: pointer;
