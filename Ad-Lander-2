@@ -102,9 +102,11 @@
     }
     #ad-lander-{{ section.id }} .p2-panel .bg {
       position: absolute; inset: 0; background-size: cover; background-position: center;
+      will-change: transform;
     }
     #ad-lander-{{ section.id }} .p2-panel video.bg {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      will-change: transform;
     }
     #ad-lander-{{ section.id }} .p2-overlay {
       position: absolute; inset: 0; pointer-events: none;
@@ -640,6 +642,25 @@
       el.style.textAlign = el.dataset.align;
     });
 
+    // PART 2: Parallax background movement
+    const p2Panel = root.querySelector('.p2-panel');
+    const p2Bg = p2Panel ? p2Panel.querySelector('.bg') : null;
+    if (p2Panel && p2Bg && window.gsap && window.ScrollTrigger) {
+      gsap.fromTo(p2Bg,
+        { yPercent: -10, scale: 1.1 },
+        {
+          yPercent: 10,
+          scale: 1.1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: p2Panel,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        }
+      );
+    }
 
     // PART 5: Horizontal carousel arrows
     const track = root.querySelector('[data-track]');
