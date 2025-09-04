@@ -24,6 +24,7 @@
     assign g  = section.settings.gutter | default: 24
     assign r  = section.settings.corner_radius | default: 16
     assign space = section.settings.section_space | default: 72
+    assign p2_gap = section.settings.p2_gap | default: 4
     -%}
 
   <style>
@@ -33,6 +34,7 @@
       --radius: {{ r }}px;
       --space-y: {{ space }}px;
       --p2-height: {{ section.settings.p2_height | default: 400 }}px;
+      --p2-gap: {{ p2_gap }}px;
       --wire-gray-100: #f5f5f5;
       --wire-gray-200: #ececec;
       --wire-gray-300: #e0e0e0;
@@ -103,7 +105,7 @@
     #ad-lander-{{ section.id }} .p2-inner {
       position: relative; z-index: 1;
       padding: clamp(28px, 6vw, 64px);
-      display: grid; gap: 4px; text-align: center;
+      display: grid; gap: var(--p2-gap); text-align: center;
       justify-items: center;
     }
 
@@ -739,6 +741,7 @@
     { "type": "range", "id": "p2_height", "label": "Panel min height (px)", "min": 200, "max": 800, "step": 20, "default": 400 },
     { "type": "richtext", "id": "p2_header", "label": "Header" },
     { "type": "richtext", "id": "p2_subhead", "label": "Subhead" },
+    { "type": "range", "id": "p2_gap", "label": "Header/Subhead gap (px)", "min": 0, "max": 40, "step": 2, "default": 4 },
     { "type": "color", "id": "p2_header_color", "label": "Header color", "default": "#5a5a5a" },
     { "type": "color", "id": "p2_subhead_color", "label": "Subhead color", "default": "#9a9a9a" },
     { "type": "color", "id": "p2_overlay", "label": "Overlay color", "default": "#000000" },
