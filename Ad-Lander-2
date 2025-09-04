@@ -4,6 +4,7 @@
   File: sections/ad-lander.liquid
   Notes:
     - Rich text fields for headers/subheads
+    - Rich text supports [color=#hex] and [weight=value] tags to style specific words
     - Part 2 background (image or video) is contained (not full-bleed)
     - Part 5 background is full-bleed; horizontal scroll carousel with JS arrows
     - Aspect ratios:
@@ -440,15 +441,19 @@
     const root = document.getElementById('ad-lander-{{ section.id }}');
     if(!root) return;
 
-
-    // Convert [color=#hex]text[/color] tags in rich text to spans
+    // Convert [color=#hex]text[/color] and [weight=value]text[/weight] tags in rich text to spans
     root.querySelectorAll('.rte').forEach(rte => {
-      rte.innerHTML = rte.innerHTML.replace(/\[color=(#[0-9a-fA-F]{3,6})\]([\s\S]*?)\[\/color\]/g, '<span data-color="$1">$2<\/span>');
+      rte.innerHTML = rte.innerHTML
+        .replace(/\[color=(#[0-9a-fA-F]{3,6})\]([\s\S]*?)\[\/color\]/g, '<span data-color="$1">$2<\/span>')
+        .replace(/\[weight=([a-zA-Z0-9]+)\]([\s\S]*?)\[\/weight\]/g, '<span data-weight="$1">$2<\/span>');
     });
 
-    // Apply inline color and alignment from rich text data attributes
+    // Apply inline color, weight and alignment from rich text data attributes
     root.querySelectorAll('.rte [data-color]').forEach(el => {
       el.style.color = el.dataset.color;
+    });
+    root.querySelectorAll('.rte [data-weight]').forEach(el => {
+      el.style.fontWeight = el.dataset.weight;
     });
     root.querySelectorAll('.rte [data-align]').forEach(el => {
       el.style.textAlign = el.dataset.align;
