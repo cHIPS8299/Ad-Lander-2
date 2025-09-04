@@ -4,7 +4,7 @@
   File: sections/ad-lander.liquid
   Notes:
     - Rich text fields for headers/subheads
-    - Part 2 background is contained (not full-bleed)
+    - Part 2 background (image or video) is contained (not full-bleed)
     - Part 5 background is full-bleed; horizontal scroll carousel with JS arrows
     - Aspect ratios:
         Part 1 image: 4/5
@@ -94,6 +94,9 @@
     }
     #ad-lander-{{ section.id }} .p2-panel .bg {
       position: absolute; inset: 0; background-size: cover; background-position: center;
+    }
+    #ad-lander-{{ section.id }} .p2-panel video.bg {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     }
     #ad-lander-{{ section.id }} .p2-overlay {
       position: absolute; inset: 0; pointer-events: none;
@@ -219,12 +222,14 @@
   <div class="part p2">
     <div class="container">
       <div class="p2-panel" style="
-        {% if section.settings.p2_bg != blank %}
+        {% if section.settings.p2_bg != blank or section.settings.p2_bg_video != blank %}
           background: transparent;
         {% endif %}
       ">
         {% if section.settings.p2_bg != blank %}
           <div class="bg" style="background-image:url('{{ section.settings.p2_bg | image_url: width: 2400 }}');"></div>
+        {% elsif section.settings.p2_bg_video != blank %}
+          {{ section.settings.p2_bg_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, class: 'bg' }}
         {% endif %}
         <div class="p2-overlay" aria-hidden="true"></div>
         <div class="p2-inner">
@@ -543,6 +548,7 @@
 
     { "type": "header", "content": "Part 2 — Mission" },
     { "type": "image_picker", "id": "p2_bg", "label": "Background image (contained)" },
+    { "type": "video", "id": "p2_bg_video", "label": "Background video" },
     { "type": "richtext", "id": "p2_header", "label": "Header" },
     { "type": "richtext", "id": "p2_subhead", "label": "Subhead" },
     { "type": "color", "id": "p2_overlay", "label": "Overlay color", "default": "#000000" },
