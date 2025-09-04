@@ -534,9 +534,13 @@
   <section id="product-showcase">
     <!-- Left Product -->
     <div class="product-card left-product">
-      <img src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/250725_Motus_Bottle-Render_Front_Small_14390092-7722-410c-9c20-2a904e0768d2.png?v=1753460898" alt="motus" class="product-image" />
+      {% if section.settings.left_product_image_url != blank %}
+        <img src="{{ section.settings.left_product_image_url }}" alt="{{ section.settings.left_product_image_alt | default: 'Left product image' }}" class="product-image" />
+      {% endif %}
       <div class="product-info">
-        <img src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/motus_icon_a8d004f2-813d-436e-bcc8-95c9a1f275e7.png?v=1739471137" alt="Motus Logo Mark" style="width:40px; display:block; margin-bottom:10px;" />
+        {% if section.settings.left_product_icon_url != blank %}
+          <img src="{{ section.settings.left_product_icon_url }}" alt="{{ section.settings.left_product_icon_alt | default: 'Left product icon' }}" style="width:40px; display:block; margin-bottom:10px;" />
+        {% endif %}
         <h1 style="text-align:left;">motus</h1>
         <p style="text-align:left;">
           A powerful, scientifically proven formula to burn fat - not muscle,
@@ -556,14 +560,18 @@
 
     <!-- Right Product -->
     <div class="product-card right-product">
-      <img 
-        src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/250725_Nouro_Bottle-Render_Front_Small_463425dc-fccb-4f36-923e-80580f8adb1b.png?v=1753460941" alt="nouro" class="product-image" />
+      {% if section.settings.right_product_image_url != blank %}
+        <img
+          src="{{ section.settings.right_product_image_url }}" alt="{{ section.settings.right_product_image_alt | default: 'Right product image' }}" class="product-image" />
+      {% endif %}
       <div class="product-info">
-        <img 
-          src="https://cdn.shopify.com/s/files/1/0926/6698/6787/files/nouro_icon_dd50c433-2aca-4f4a-8d42-9673687daf8f.png?v=1739471112" 
-          alt="Nouro Logo Mark" 
-          style="width:40px; display:block; margin-bottom:10px;"
-        />
+        {% if section.settings.right_product_icon_url != blank %}
+          <img
+            src="{{ section.settings.right_product_icon_url }}"
+            alt="{{ section.settings.right_product_icon_alt | default: 'Right product icon' }}"
+            style="width:40px; display:block; margin-bottom:10px;"
+          />
+        {% endif %}
         <h1 style="text-align:left;">nouro</h1>
         <p style="text-align:left;">
           Nourish your body's most important organ: your brain. Our scientifically proven formula supports cognitive performance/protection and long term <b>brain health.</b>
@@ -772,6 +780,15 @@
     { "type": "richtext", "id": "p5_header", "label": "Header" },
     { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
     { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
+    { "type": "header", "content": "Product showcase" },
+    { "type": "text", "id": "left_product_image_url", "label": "Left product image URL", "default": "https://cdn.shopify.com/s/files/1/0926/6698/6787/files/250725_Motus_Bottle-Render_Front_Small_14390092-7722-410c-9c20-2a904e0768d2.png?v=1753460898" },
+    { "type": "text", "id": "left_product_image_alt", "label": "Left product image alt text", "default": "motus" },
+    { "type": "text", "id": "left_product_icon_url", "label": "Left product icon URL", "default": "https://cdn.shopify.com/s/files/1/0926/6698/6787/files/motus_icon_a8d004f2-813d-436e-bcc8-95c9a1f275e7.png?v=1739471137" },
+    { "type": "text", "id": "left_product_icon_alt", "label": "Left product icon alt text", "default": "Motus Logo Mark" },
+    { "type": "text", "id": "right_product_image_url", "label": "Right product image URL", "default": "https://cdn.shopify.com/s/files/1/0926/6698/6787/files/250725_Nouro_Bottle-Render_Front_Small_463425dc-fccb-4f36-923e-80580f8adb1b.png?v=1753460941" },
+    { "type": "text", "id": "right_product_image_alt", "label": "Right product image alt text", "default": "nouro" },
+    { "type": "text", "id": "right_product_icon_url", "label": "Right product icon URL", "default": "https://cdn.shopify.com/s/files/1/0926/6698/6787/files/nouro_icon_dd50c433-2aca-4f4a-8d42-9673687daf8f.png?v=1739471112" },
+    { "type": "text", "id": "right_product_icon_alt", "label": "Right product icon alt text", "default": "Nouro Logo Mark" },
     { "type": "text", "id": "left_product_button_label", "label": "Left product button text", "default": "Learn about weight loss" },
     { "type": "url", "id": "left_product_button_link", "label": "Left product button link" },
     { "type": "text", "id": "right_product_button_label", "label": "Right product button text", "default": "Learn about brain health" },
