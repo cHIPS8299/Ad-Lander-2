@@ -179,6 +179,7 @@
     }
     #ad-lander-{{ section.id }} .product-item .img-frame {
       aspect-ratio: 9 / 14;
+      width: 100%;
     }
     #ad-lander-{{ section.id }} .product-item .sub { min-height: 1.5em; }
 
@@ -408,15 +409,14 @@
               assign cta_label = block.settings.cta_label
               assign cta_url = block.settings.cta_url
               assign img_max = block.settings.image_max_width | default: 250
-              assign img_style = 'width: 100%; max-width: ' | append: img_max | append: 'px;'
+              assign frame_style = 'width: 100%; max-width: ' | append: img_max | append: 'px;'
             -%}
             <article class="product-item" role="listitem" {{ block.shopify_attributes }}>
-              <div class="img-frame">
+              <div class="img-frame" style="{{ frame_style }}">
                 {% if final_img != blank %}
                   {{ final_img | image_url: width: 1200 | image_tag:
                     loading: 'lazy',
-                    alt: block.settings.alt | default: 'Card image',
-                    style: img_style
+                    alt: block.settings.alt | default: 'Card image'
                   }}
                 {% else %}
                   <div class="placeholder">9:14 image</div>
