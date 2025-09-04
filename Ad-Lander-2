@@ -11,7 +11,7 @@
         Part 1 image: 4/5
         Part 3 image: 4/5
         Part 5 cards: 2/3
-        Part 6 product cards: 9/14
+        Part 6 product images: 9/14
     - Product Showcase (Part 3) has a CSS hover: image nudges left, text nudges right
     - Accessibility:
         * Alt text inputs for all content images
@@ -170,30 +170,17 @@
     #ad-lander-{{ section.id }} .p5-prev { left: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
     #ad-lander-{{ section.id }} .p5-next { right: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
 
-    /* Part 6 (Product Cards grid, image + text/CTA) */
+    /* Part 6 (Product images with subhead + CTA) */
     #ad-lander-{{ section.id }} .p6-grid {
-      display: grid; gap: 28px; grid-template-columns: repeat(2, 1fr);
+      display: grid; gap: 28px; grid-template-columns: repeat(3, 1fr); text-align: center;
     }
-    #ad-lander-{{ section.id }} .product-card {
-      display: grid; gap: 12px;
+    #ad-lander-{{ section.id }} .product-item {
+      display: grid; gap: 12px; justify-items: center;
     }
-    #ad-lander-{{ section.id }} .product-card .p6-media {
-      position: relative; overflow: hidden;
+    #ad-lander-{{ section.id }} .product-item .img-frame {
+      aspect-ratio: 9 / 14;
     }
-    #ad-lander-{{ section.id }} .product-card .p6-media .img-frame {
-      aspect-ratio: 9 / 14; transition: transform .4s ease; position: relative; z-index: 1;
-    }
-    #ad-lander-{{ section.id }} .product-card .p6-media .hover-text {
-      position: absolute; left: 0; top: 50%; transform: translate(-100%, -50%);
-      transition: transform .4s ease; z-index: 0; white-space: nowrap;
-    }
-    #ad-lander-{{ section.id }} .p6-grid:hover .product-card .p6-media .img-frame {
-      transform: translateX(-20%);
-    }
-    #ad-lander-{{ section.id }} .p6-grid:hover .product-card .p6-media .hover-text {
-      transform: translate(0, -50%);
-    }
-    #ad-lander-{{ section.id }} .product-card .sub { min-height: 1.5em; }
+    #ad-lander-{{ section.id }} .product-item .sub { min-height: 1.5em; }
 
     /* Section-specific text colors */
     #ad-lander-{{ section.id }} .p1 .h1 { color: {{ section.settings.p1_header_color }}; }
@@ -406,16 +393,16 @@
 
   <!-- =========================
        PART 6: Product Showcase
-       Product cards (blocks) with image + subhead + CTA under
+       Product images (blocks) with subhead + CTA under
        Supports Product picker OR manual fields
        ========================= -->
   {% if section.settings.show_p6 %}
   <div class="part p6">
     <div class="container">
-      <div class="p6-grid" role="list" aria-label="Product cards">
+      <div class="p6-grid" role="list" aria-label="Products">
         {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
         {%- if product_blocks.size > 0 -%}
-          {%- for block in product_blocks -%}
+          {%- for block in product_blocks limit: 3 -%}
             {%- liquid
               assign chosen_product = block.settings.product
               assign manual_img = block.settings.image
@@ -430,21 +417,16 @@
                 assign cta_url = chosen_product.url
               endif
             -%}
-            <article class="product-card" role="listitem" {{ block.shopify_attributes }}>
-              <div class="p6-media">
-                {% if block.settings.subhead != blank %}
-                  <div class="hover-text rte" aria-hidden="true">{{ block.settings.subhead }}</div>
+            <article class="product-item" role="listitem" {{ block.shopify_attributes }}>
+              <div class="img-frame">
+                {% if final_img != blank %}
+                  {{ final_img | image_url: width: 1200 | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.alt | default: chosen_product.title | default: 'Product image'
+                  }}
+                {% else %}
+                  <div class="placeholder">9:14 image</div>
                 {% endif %}
-                <div class="img-frame">
-                  {% if final_img != blank %}
-                    {{ final_img | image_url: width: 1200 | image_tag:
-                      loading: 'lazy',
-                      alt: block.settings.alt | default: chosen_product.title | default: 'Product image'
-                    }}
-                  {% else %}
-                    <div class="placeholder">9:14 image</div>
-                  {% endif %}
-                </div>
               </div>
               {% if block.settings.subhead != blank %}
                 <div class="sub rte">{{ block.settings.subhead }}</div>
@@ -460,13 +442,10 @@
             </article>
           {%- endfor -%}
         {%- else -%}
-          <!-- Two placeholder product cards -->
-          {% for i in (1..2) %}
-            <article class="product-card" role="listitem">
-              <div class="p6-media">
-                <div class="hover-text" aria-hidden="true">Subhead</div>
-                <div class="img-frame"><div class="placeholder">9:14 image</div></div>
-              </div>
+          <!-- Three placeholder products -->
+          {% for i in (1..3) %}
+            <article class="product-item" role="listitem">
+              <div class="img-frame"><div class="placeholder">9:14 image</div></div>
               <div class="sub">Subhead</div>
               <a class="btn" href="#" aria-label="CTA">CTA</a>
             </article>
@@ -631,7 +610,7 @@
     { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
     { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
     { "type": "header", "content": "Part 6 — Products" },
-    { "type": "color", "id": "p6_subhead_color", "label": "Product card subhead color", "default": "#9a9a9a" }
+    { "type": "color", "id": "p6_subhead_color", "label": "Product subhead color", "default": "#9a9a9a" }
   ],
   "blocks": [
     {
@@ -645,7 +624,7 @@
     },
     {
       "type": "product_card",
-      "name": "Product Card",
+      "name": "Product",
       "settings": [
         { "type": "product", "id": "product", "label": "Product (optional)" },
         { "type": "image_picker", "id": "image", "label": "Image override (9:14)" },
