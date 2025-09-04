@@ -171,7 +171,7 @@
     #ad-lander-{{ section.id }} .p5-next { right: max(8px, calc((100vw - var(--container-w)) / 2 + 8px)); }
 
     /* Part 6 (Product images with subhead + CTA) */
-    #ad-lander-{{ section.id }} .p6-grid {
+    #ad-lander-{{ section.id }} .p6 {
       display: grid; gap: 28px; grid-template-columns: repeat(3, 1fr); text-align: center; padding-inline: var(--gutter);
     }
     #ad-lander-{{ section.id }} .product-item {
@@ -201,7 +201,7 @@
     @media (max-width: 900px) {
       #ad-lander-{{ section.id }} .split { grid-template-columns: 1fr; }
       #ad-lander-{{ section.id }} .p4-grid { grid-template-columns: 1fr; }
-      #ad-lander-{{ section.id }} .p6-grid { grid-template-columns: 1fr; }
+      #ad-lander-{{ section.id }} .p6 { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -399,8 +399,7 @@
        Supports Product picker OR manual fields
        ========================= -->
   {% if section.settings.show_p6 %}
-  <div class="part p6">
-    <div class="p6-grid" role="list" aria-label="Products">
+  <div class="part p6" role="list" aria-label="Products">
         {%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
         {%- if product_blocks.size > 0 -%}
           {%- for block in product_blocks limit: 3 -%}
@@ -445,7 +444,6 @@
             </article>
           {% endfor %}
         {%- endif -%}
-    </div>
   </div>
   {% endif %}
 </section>
