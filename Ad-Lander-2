@@ -174,6 +174,19 @@
     #ad-lander-{{ section.id }} .product-card .img-frame { aspect-ratio: 9 / 14; }
     #ad-lander-{{ section.id }} .product-card .sub { min-height: 1.5em; }
 
+    /* Section-specific text colors */
+    #ad-lander-{{ section.id }} .p1 .h1 { color: {{ section.settings.p1_header_color }}; }
+    #ad-lander-{{ section.id }} .p1 .sub { color: {{ section.settings.p1_subhead_color }}; }
+    #ad-lander-{{ section.id }} .p2 .h1 { color: {{ section.settings.p2_header_color }}; }
+    #ad-lander-{{ section.id }} .p2 .sub { color: {{ section.settings.p2_subhead_color }}; }
+    #ad-lander-{{ section.id }} .p3 .h1 { color: {{ section.settings.p3_header_color }}; }
+    #ad-lander-{{ section.id }} .p3 .sub { color: {{ section.settings.p3_subhead_color }}; }
+    #ad-lander-{{ section.id }} .p4 .h1 { color: {{ section.settings.p4_header_color }}; }
+    #ad-lander-{{ section.id }} .p4 .sub { color: {{ section.settings.p4_subhead_color }}; }
+    #ad-lander-{{ section.id }} .p5 .h1 { color: {{ section.settings.p5_header_color }}; }
+    #ad-lander-{{ section.id }} .p5 .sub { color: {{ section.settings.p5_subhead_color }}; }
+    #ad-lander-{{ section.id }} .p6 .sub { color: {{ section.settings.p6_subhead_color }}; }
+
     /* Simple responsive stacking (we'll tune mobile later) */
     @media (max-width: 900px) {
       #ad-lander-{{ section.id }} .split { grid-template-columns: 1fr; }
@@ -546,6 +559,8 @@
     { "type": "header", "content": "Part 1 — Intro" },
     { "type": "richtext", "id": "p1_header", "label": "Header" },
     { "type": "richtext", "id": "p1_subhead", "label": "Subhead" },
+    { "type": "color", "id": "p1_header_color", "label": "Header color", "default": "#5a5a5a" },
+    { "type": "color", "id": "p1_subhead_color", "label": "Subhead color", "default": "#9a9a9a" },
     { "type": "image_picker", "id": "p1_image", "label": "Right image" },
     { "type": "text", "id": "p1_image_alt", "label": "Right image alt text" },
     { "type": "range", "id": "p1_image_max_width", "label": "Image max width (px)", "min": 100, "max": 1000, "step": 10, "default": 600 },
@@ -556,6 +571,8 @@
     { "type": "video", "id": "p2_bg_video", "label": "Background video" },
     { "type": "richtext", "id": "p2_header", "label": "Header" },
     { "type": "richtext", "id": "p2_subhead", "label": "Subhead" },
+    { "type": "color", "id": "p2_header_color", "label": "Header color", "default": "#5a5a5a" },
+    { "type": "color", "id": "p2_subhead_color", "label": "Subhead color", "default": "#9a9a9a" },
     { "type": "color", "id": "p2_overlay", "label": "Overlay color", "default": "#000000" },
     { "type": "range", "id": "p2_overlay_opacity", "label": "Overlay opacity (%)", "min": 0, "max": 95, "step": 5, "default": 0 },
 
@@ -564,10 +581,14 @@
     { "type": "text", "id": "p3_image_alt", "label": "Left image alt text" },
     { "type": "richtext", "id": "p3_header", "label": "Header" },
     { "type": "richtext", "id": "p3_subhead", "label": "Subhead" },
+    { "type": "color", "id": "p3_header_color", "label": "Header color", "default": "#5a5a5a" },
+    { "type": "color", "id": "p3_subhead_color", "label": "Subhead color", "default": "#9a9a9a" },
 
     { "type": "header", "content": "Part 4 — Intro + CTA" },
     { "type": "richtext", "id": "p4_header", "label": "Header (left)" },
     { "type": "richtext", "id": "p4_subhead", "label": "Subhead (right)" },
+    { "type": "color", "id": "p4_header_color", "label": "Header color", "default": "#5a5a5a" },
+    { "type": "color", "id": "p4_subhead_color", "label": "Subhead color", "default": "#9a9a9a" },
     { "type": "text", "id": "p4_cta_label", "label": "CTA label" },
     { "type": "url", "id": "p4_cta_url", "label": "CTA link" },
     { "type": "checkbox", "id": "p4_cta_newtab", "label": "Open CTA in new tab", "default": false },
@@ -576,7 +597,11 @@
     { "type": "image_picker", "id": "p5_bg", "label": "Full-bleed background" },
     { "type": "color", "id": "p5_overlay", "label": "Overlay color", "default": "#000000" },
     { "type": "range", "id": "p5_overlay_opacity", "label": "Overlay opacity (%)", "min": 0, "max": 95, "step": 5, "default": 0 },
-    { "type": "richtext", "id": "p5_header", "label": "Header" }
+    { "type": "richtext", "id": "p5_header", "label": "Header" },
+    { "type": "color", "id": "p5_header_color", "label": "Header color", "default": "#5a5a5a" },
+    { "type": "color", "id": "p5_subhead_color", "label": "Card subhead color", "default": "#9a9a9a" },
+    { "type": "header", "content": "Part 6 — Products" },
+    { "type": "color", "id": "p6_subhead_color", "label": "Product card subhead color", "default": "#9a9a9a" }
   ],
   "blocks": [
     {
