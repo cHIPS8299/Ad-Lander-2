@@ -197,7 +197,7 @@
       overflow-wrap: anywhere;
 
     }
-    #ad-lander-{{ section.id }} .card .main { display: grid; gap: 10px; width: min(250px, 75vw); }
+    #ad-lander-{{ section.id }} .card .main { display: grid; gap: 10px; width: 100%; }
     #ad-lander-{{ section.id }} .p5-arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
       width: 40px; height: 40px; border-radius: 999px; border: var(--wire-border); background: #fff;
