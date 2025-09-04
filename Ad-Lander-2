@@ -54,7 +54,6 @@
     #ad-lander-{{ section.id }} .sub { color: var(--wire-gray-500); font-size: clamp(14px, 1.6vw, 18px); line-height: 1.5; }
     #ad-lander-{{ section.id }} .rte { display: grid; gap: 8px; }
 
-    #ad-lander-{{ section.id }} .override-word { display: block; width: 100%; }
 
     #ad-lander-{{ section.id }} .rte [data-align] { display: block; width: 100%; }
 
@@ -438,17 +437,10 @@
     if(!root) return;
 
 
-    // Override a specific word's color and alignment from schema settings
-    const word  = {{ section.settings.override_word | json }};
-    const color = {{ section.settings.override_color | json }};
-    const align = {{ section.settings.override_align | json }};
-
-    if (word) {
-      const regex = new RegExp(word, 'g');
-      root.querySelectorAll('.rte').forEach(rte => {
-        rte.innerHTML = rte.innerHTML.replace(regex, '<span class="override-word" style="color:' + color + '; text-align:' + align + ';">' + word + '</span>');
-      });
-    }
+    // Convert [color=#hex]text[/color] tags in rich text to spans
+    root.querySelectorAll('.rte').forEach(rte => {
+      rte.innerHTML = rte.innerHTML.replace(/\[color=(#[0-9a-fA-F]{3,6})\]([\s\S]*?)\[\/color\]/g, '<span data-color="$1">$2<\/span>');
+    });
 
     // Apply inline color and alignment from rich text data attributes
     root.querySelectorAll('.rte [data-color]').forEach(el => {
@@ -532,17 +524,6 @@
       "max": 120,
       "step": 4,
       "default": 72
-    },
-
-    { "type": "header", "content": "Rich text override" },
-    { "type": "text", "id": "override_word", "label": "Word to override" },
-    { "type": "color", "id": "override_color", "label": "Override color", "default": "#000000" },
-    { "type": "select", "id": "override_align", "label": "Override alignment", "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "left"
     },
 
     { "type": "header", "content": "Part toggles" },
