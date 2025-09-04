@@ -105,7 +105,8 @@
     #ad-lander-{{ section.id }} .p2-inner {
       position: relative; z-index: 1;
       padding: clamp(28px, 6vw, 64px);
-      display: grid; gap: var(--p2-gap); text-align: center;
+      /* Reduce the gap between the header and subhead */
+      display: grid; gap: calc(var(--p2-gap) / 2); text-align: center;
       justify-items: center;
     }
 
