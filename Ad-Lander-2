@@ -131,7 +131,7 @@
         min-height: var(--p5-height);
       }
     #ad-lander-{{ section.id }} .p5 .bg {
-      position: absolute; inset: 0; background-size: cover; background-position: center;
+      position: absolute; inset: 0; background-size: contain; background-position: center; background-repeat: no-repeat;
     }
     #ad-lander-{{ section.id }} .p5 .overlay {
       position: absolute; inset: 0; pointer-events: none;
