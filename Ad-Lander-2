@@ -37,6 +37,7 @@
       --gutter: {{ g }}px;
       --radius: {{ r }}px;
       --space-y: {{ space }}px;
+      --p1-height: {{ section.settings.p1_height | default: 400 }}px;
       --p2-height: {{ section.settings.p2_height | default: 400 }}px;
       --p2-gap: {{ p2_gap }}px;
       --p5-height: {{ section.settings.p5_height | default: 400 }}px;
@@ -91,6 +92,9 @@
     }
 
     /* Part 1 (Intro Header) */
+    #ad-lander-{{ section.id }} .p1 {
+      min-height: var(--p1-height);
+    }
     #ad-lander-{{ section.id }} .p1 .copy { display: grid; gap: 4px; }
 
     /* Part 2 (Mission Statement, contained panel with bg) */
@@ -799,13 +803,14 @@
     { "type": "richtext", "id": "p1_subhead", "label": "Subhead" },
     { "type": "color", "id": "p1_header_color", "label": "Header color", "default": "#5a5a5a" },
     { "type": "color", "id": "p1_subhead_color", "label": "Subhead color", "default": "#9a9a9a" },
-    { "type": "image_picker", "id": "p1_image", "label": "Right image" },
-    { "type": "text", "id": "p1_image_alt", "label": "Right image alt text" },
-    { "type": "range", "id": "p1_image_max_width", "label": "Image max width (px)", "min": 100, "max": 1000, "step": 10, "default": 600 },
-    { "type": "range", "id": "p1_image_rotation", "label": "Image rotation (deg)", "min": -45, "max": 45, "step": 1, "default": 0 },
+  { "type": "image_picker", "id": "p1_image", "label": "Right image" },
+  { "type": "text", "id": "p1_image_alt", "label": "Right image alt text" },
+  { "type": "range", "id": "p1_image_max_width", "label": "Image max width (px)", "min": 100, "max": 1000, "step": 10, "default": 600 },
+  { "type": "range", "id": "p1_image_rotation", "label": "Image rotation (deg)", "min": -45, "max": 45, "step": 1, "default": 0 },
+  { "type": "range", "id": "p1_height", "label": "Panel min height (px)", "min": 200, "max": 800, "step": 20, "default": 400 },
 
-    { "type": "header", "content": "Part 2 — Mission" },
-    { "type": "image_picker", "id": "p2_bg", "label": "Background image (contained)" },
+  { "type": "header", "content": "Part 2 — Mission" },
+  { "type": "image_picker", "id": "p2_bg", "label": "Background image (contained)" },
     { "type": "video", "id": "p2_bg_video", "label": "Background video" },
     { "type": "range", "id": "p2_height", "label": "Panel min height (px)", "min": 200, "max": 800, "step": 20, "default": 400 },
     { "type": "richtext", "id": "p2_header", "label": "Header" },
